@@ -34,11 +34,14 @@ func getEnvWithDefault(key string, defaultVal string) string {
 	return defaultVal
 }
 
-func MustLoad() *Config {
-	err := godotenv.Load("./config.env")
-	if err != nil {
-		panic(err)
+func MustLoad(cfgPath string) *Config {
+	if cfgPath != "" {
+		err := godotenv.Load(cfgPath)
+		if err != nil {
+			panic(err)
+		}
 	}
+
 	minutes, err := strconv.Atoi(getEnvWithDefault("TOKEN_TTL", "60"))
 	if err != nil {
 		panic(err)
